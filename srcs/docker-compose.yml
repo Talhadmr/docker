@@ -12,14 +12,14 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/tdemir/data/wp
+      device: /home/talha/data/wp
   db:
     driver: local
     name: db_volume
     driver_opts:
       type: none
       o: bind
-      device: /home/tdemir/data/db
+      device: /home/talha/data/db
 
 services:
  

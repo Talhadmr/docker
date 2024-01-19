@@ -23,7 +23,7 @@
 define( 'DB_NAME', 'wordpress' );
 
 /** Database username */
-define( 'DB_USER', 'tdemir');
+define( 'DB_USER', 'talha');
 
 /** Database password */
 define( 'DB_PASSWORD', '123');
@@ -39,7 +39,7 @@ define( 'DB_COLLATE', '' );
 
 //** Redis cache settings. */
 define('WP_CACHE', true);
-define('WP_CACHE_KEY_SALT', 'tdemir@karabayyazilim.com');
+define('WP_CACHE_KEY_SALT', 'talha@karabayyazilim.com');
 
 //** Try Redis container */
 define('WP_REDIS_HOST', 'redis');
