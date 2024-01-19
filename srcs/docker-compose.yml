@@ -1,82 +1,66 @@
-# Dosya sürümü
-version: '3'
+version: "3.5"
 
-# Hizmetlerin(Konteyner) ayarları
+networks:
+  nw:
+    name: my_network42
+    driver: bridge
+
+volumes:
+  wp:
+    driver: local
+    name: wp_volume
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/tdemir/data/wp
+  db:
+    driver: local
+    name: db_volume
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/tdemir/data/db
+
 services:
-
-  nginx:
-    # Oluşturulacak Konteyner Adı
-    container_name: nginx
-
-    # Dockerfile dosya yolu
-    build: ./requirements/nginx
-
-    # Konteyneri başlatmadan önce bağlı olduğu konteynerleri belirtir.
-# Eğer bonus kısmını yapmayacaksanız bu kısmı yazmayın.
-    depends_on:
-      - adminer
-      - redis
-      - hugo
-    
-    # Dinlenilecek : Yönlendirilecek portlar
-    ports:
-      - 443:443
-    
-    # Dosyaların saklanacağı dizin
-    volumes:
-      - wordpress_data:/var/www/html
-
-    # Konteynerı otomatik olarak yeniden başlatır
-    restart: always
-
-    # Konteynerin bağlı olduğu ağ
-    networks:
-      - network
-
+ 
   mariadb:
     container_name: mariadb
     build: ./requirements/mariadb
-    volumes:
-      - mariadb_data:/var/lib/mysql
-    networks:
-      - network
-    restart: always
-
-    # .env dosyasındaki verileri ortam değişkenlerine atar
     env_file:
-      - .env
-
+      - ./.env
+    networks:
+      - nw
+    restart: unless-stopped
+    volumes:
+      - db:/var/lib/mysql
+      
   wordpress:
     container_name: wordpress
+    build: ./requirements/wordpress
+    env_file:
+      - ./.env
+    networks:
+      - nw
     depends_on:
       - mariadb
-    build:
-      context: ./requirements/wordpress
-      dockerfile: Dockerfile
-    restart: always
-    env_file:
-      - .env
+    restart: unless-stopped
     volumes:
-      - wordpress_data:/var/www/html
+      - wp:/var/www/html
+
+  nginx:
+    container_name: nginx
+    build: ./requirements/nginx
+    env_file:
+      - ./.env
+    ports:
+      - "443:443"
+    depends_on:
+      - mariadb
+      - wordpress
+    volumes:
+      - wp:/var/www/html
     networks:
-      - network
+      - nw
+    restart: unless-stopped
 
-# Hizmet verilerini saklar ve ana sistem ile bağlantı kurar.
-volumes:
-  mariadb_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/data/mysql
-      o: bind
-  wordpress_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/data/wordpress
-      o: bind
-
-# Varsayılan ağ sürücüsüne bağlanır
-networks:
-  network:
-    driver: bridge
+  
