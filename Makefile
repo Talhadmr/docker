@@ -3,11 +3,11 @@ all: data db wp up
 up:
 	docker-compose -f ./srcs/docker-compose.yml up -d
 data:
-	mkdir /home/talha/data
+	mkdir -p /home/talha/data
 db:
-	mkdir /home/talha/data/db
+	mkdir -p /home/talha/data/db
 wp:
-	mkdir /home/talha/data/wp
+	mkdir -p /home/talha/data/wp
 
 down:
 	docker-compose -f ./srcs/docker-compose.yml down
