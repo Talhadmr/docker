@@ -1,66 +1,60 @@
 version: "3.5"
 
 networks:
-  nw:
-    name: my_network42
+  app-network:
+    name: app-network
     driver: bridge
 
 volumes:
   wp:
     driver: local
-    name: wp_volume
+    name: wp
     driver_opts:
       type: none
       o: bind
-      device: /home/talha/data/wp
+      device: /$HOME/data/wordpress
   db:
     driver: local
-    name: db_volume
+    name: db
     driver_opts:
       type: none
       o: bind
-      device: /home/talha/data/db
+      device: /$HOME/data/mariadb
 
 services:
- 
   mariadb:
     container_name: mariadb
     build: ./requirements/mariadb
     env_file:
-      - ./.env
-    networks:
-      - nw
-    restart: unless-stopped
+      - .env
     volumes:
       - db:/var/lib/mysql
-      
+    networks:
+      - app-network
+    restart: unless-stopped
+
   wordpress:
     container_name: wordpress
     build: ./requirements/wordpress
     env_file:
-      - ./.env
-    networks:
-      - nw
+      - .env
     depends_on:
       - mariadb
-    restart: unless-stopped
     volumes:
       - wp:/var/www/html
+    networks:
+      - app-network
+    restart: unless-stopped
 
   nginx:
     container_name: nginx
     build: ./requirements/nginx
-    env_file:
-      - ./.env
     ports:
       - "443:443"
     depends_on:
-      - mariadb
       - wordpress
     volumes:
       - wp:/var/www/html
     networks:
-      - nw
+      - app-network
     restart: unless-stopped
-
-  

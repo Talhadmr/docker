@@ -1,15 +1,25 @@
-all: data db wp up
-
-up:
-	docker-compose -f ./srcs/docker-compose.yml up -d
-data:
-	mkdir -p /home/talha/data
-db:
-	mkdir -p /home/talha/data/db
-wp:
-	mkdir -p /home/talha/data/wp
+# -f: --file
+# -q: --quiet
+# -a: --all
+# $$: escape $ for shell
+all:
+	@mkdir -p $(HOME)/data/wordpress
+	@mkdir -p $(HOME)/data/mariadb
+	@docker-compose -f ./srcs/docker-compose.yml up
 
 down:
-	docker-compose -f ./srcs/docker-compose.yml down
+	@docker-compose -f ./srcs/docker-compose.yml down
 
-.PHONY: up data db wp down
+re:
+	@docker-compose -f srcs/docker-compose.yml up --build
+
+clean:
+	@docker stop $$(docker ps -qa);\
+	docker rm $$(docker ps -qa);\
+	docker rmi -f $$(docker images -qa);\
+	docker volume rm $$(docker volume ls -q);\
+	docker network rm $$(docker network ls -q);\
+	rm -rf $(HOME)/data/wordpress
+	rm -rf $(HOME)/data/mariadb
+
+.PHONY: all re down clean

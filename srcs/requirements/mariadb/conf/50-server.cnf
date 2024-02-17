@@ -1,3 +1,5 @@
+
+
    
 #
 #These groups are read by MariaDB server.
@@ -132,5 +134,3 @@ collation-server      = utf8mb4_general_ci
 # If you use the same .cnf file for MariaDB of different versions,
 # use this group for options that older servers don't understand
 [mariadb-10.3]
-
-
