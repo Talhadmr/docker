@@ -17,7 +17,7 @@ Kurulum: [YouTube](https://www.youtube.com/watch?v=BjbhxtUjkhg&feature=youtu.be)
 
 ![Docker Logo](https://github.com/burak-yldrm/Inception/blob/main/img/1920px-Docker_(container_engine)_logo.svg.png)
 
-Docker, uygulamaları birleştirmek, tdemir etmek ve dağıtmak için açık kaynaklı bir platformdur. Docker, yazılım geliştirme sürecini hızlandırmak için uygulamaları hızlı bir şekilde paketlemenizi, tdemir etmenizi ve dağıtmanızı sağlar.
+Docker, uygulamaları birleştirmek, test etmek ve dağıtmak için açık kaynaklı bir platformdur. Docker, yazılım geliştirme sürecini hızlandırmak için uygulamaları hızlı bir şekilde paketlemenizi, test etmenizi ve dağıtmanızı sağlar.
 
 Docker içerisinde çalışan uygulamaları container olarak adlandırıyoruz.
 Bir container içerisinde çalışan uygulama diğer container içerisinde çalışan uygulamalardan etkilenmez. Containerlar aslında birer sanal makina gibi çalışır fakat sanal makinadan farklı olarak containerlar birbirinden izole edilmiş bir şekilde çalışır ve sanal makinadan daha hafiftir.

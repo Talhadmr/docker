@@ -74,9 +74,9 @@ Bu dosya, Mariadb'nin kullanacağı konfigürasyon dosyasıdır. Bu dosya, Maria
 ```sql
 CREATE DATABASE IF NOT EXISTS wordpress; --Eğer 'wordpress' adında bir veritabanı yoksa, bu komut ile oluşturulur.
 
-CREATE USER IF NOT EXISTS 'tdemir'@'%' IDENTIFIED BY '12345'; --Eğer 'tdemir' adında bir kullanıcı yoksa, bu komut ile oluşturulur.
+CREATE USER IF NOT EXISTS 'test'@'%' IDENTIFIED BY '12345'; --Eğer 'test' adında bir kullanıcı yoksa, bu komut ile oluşturulur.
 
-GRANT ALL PRIVILEGES ON wordpress.* TO 'tdemir'@'%'; --'tdemir' kullanıcısına, 'wordpress' veritabanı üzerindeki tüm yetkiler verilir.
+GRANT ALL PRIVILEGES ON wordpress.* TO 'test'@'%'; --'test' kullanıcısına, 'wordpress' veritabanı üzerindeki tüm yetkiler verilir.
 
 FLUSH PRIVILEGES; --Yetkilerin güncellenmesi için bu komut çalıştırılır.
 
