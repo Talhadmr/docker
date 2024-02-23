@@ -125,7 +125,7 @@ Ayrıca, geliştirme ortamlarında hata ayıklama modunu etkinleştirmek ve güv
 ```php
 <?php
 define( 'DB_NAME', 'wordpress' ); # WordPress veritabanının adı
-define( 'DB_USER', 'test' ); # WordPress veritabanı kullanıcısı
+define( 'DB_USER', 'tdemir' ); # WordPress veritabanı kullanıcısı
 define( 'DB_PASSWORD', '12345' ); # WordPress veritabanı kullanıcısının parolası
 define( 'DB_HOST', 'mariadb' ); # WordPress veritabanının barındığı sunucu
 define( 'DB_CHARSET', 'utf8' ); # WordPress veritabanının karakter seti
