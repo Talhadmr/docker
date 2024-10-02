@@ -29,7 +29,7 @@ services:
       - db:/var/lib/mysql
     networks:
       - app-network
-    restart: unless-stopped  # Doğru kullanım
+    restart: unless-stopped 
 
   wordpress:
     container_name: wordpress
@@ -42,7 +42,7 @@ services:
       - wp:/var/www/html
     networks:
       - app-network
-    restart: unless-stopped  # Doğru kullanım
+    restart: unless-stopped  
 
   nginx:
     container_name: nginx
@@ -74,4 +74,4 @@ services:
       - wp:/home/vsftpd
     networks:
       - app-network
-    restart: unless-stopped  # Doğru kullanım
+    restart: unless-stopped  
