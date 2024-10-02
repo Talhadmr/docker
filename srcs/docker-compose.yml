@@ -1,77 +1,30 @@
-networks:
-  app-network:
-    name: app-network
-    driver: bridge
-
-volumes:
-  wp:
-    driver: local
-    name: wp
-    driver_opts:
-      type: none
-      o: bind
-      device: /$HOME/tdemir/data/wordpress
-  db:
-    driver: local
-    name: db
-    driver_opts:
-      type: none
-      o: bind
-      device: /$HOME/tdemir/data/mariadb
-
 services:
-  mariadb:
-    container_name: mariadb
-    build: ./requirements/mariadb
-    env_file:
-      - .env
-    volumes:
-      - db:/var/lib/mysql
-    networks:
-      - app-network
-    restart: unless-stopped  # Doğru kullanım
-
-  wordpress:
-    container_name: wordpress
-    build: ./requirements/wordpress
-    env_file:
-      - .env
-    depends_on:
-      - mariadb
-    volumes:
-      - wp:/var/www/html
-    networks:
-      - app-network
-    restart: unless-stopped  # Doğru kullanım
-
-  nginx:
-    container_name: nginx
-    build: ./requirements/nginx
+  web:
+    image: nginx:latest
+    container_name: web_server
     ports:
-      - "443:443"
-    depends_on:
-      - wordpress
+      - "80:80"
     volumes:
-      - wp:/var/www/html
+      - ./web:/usr/share/nginx/html
     networks:
-      - app-network
-    restart: unless-stopped  
+      - webnet
 
   ftp:
-    container_name: ftp
-    build: ./requirements/ftp
+    image: fauria/vsftpd:latest
+    container_name: ftp_server
+    environment:
+      - FTP_USER=user
+      - FTP_PASS=password
+      - PASV_ADDRESS=127.0.0.1
+      - PASV_MIN_PORT=21100
+      - PASV_MAX_PORT=21110
     ports:
       - "21:21"
-      - "20:20"
       - "21100-21110:21100-21110"
-    environment:
-      FTP_USER: user
-      FTP_PASS: password
-      PASV_ADDRESS: "Your_Server_Public_IP"
-      PASV_MIN_PORT: 21100
-      PASV_MAX_PORT: 21110
     volumes:
-      - wp:/home/vsftpd
+      - ./ftp/ftp_data:/home/vsftpd
     networks:
-      - app-network
-    restart: unless-stopped  # Doğru kullanım
+      - webnet
+
+networks:
+  webnet:
